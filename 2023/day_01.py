@@ -53,8 +53,6 @@ def part2(inp):
         while i < len(ln):
             if ln[i].isdigit():
                 sbuf += ln[i]
-                i += 1
-                continue
             for d in UNIQUE_TABLE.get(ln[i], []):
                 if ln[i: i + len(d)] == d:
                     sbuf += DIG_TABLE[d]
