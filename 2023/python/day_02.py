@@ -1,4 +1,4 @@
-with open("inputs/day_02.txt") as file:
+with open("../inputs/day_02.txt") as file:
     IN = file.read().strip().splitlines()
 
 TEST1 = """\
@@ -27,6 +27,7 @@ def is_valid(ln):
             return False
     return True
 
+
 def max_clr(ln):
     r, g, b = [], [], []
     for st in ln.split(";"):
@@ -49,13 +50,16 @@ def part1(inp):
             s += int(g.split()[-1])
     return s
 
+
 def part2(inp):
-    s = 0
-    for ln in inp:
-        g, st = ln.split(":")
-        r, g, b = max_clr(st)
-        s += r * g * b
-    return s
+    # s = 0
+    # for ln in inp:
+    #     g, st = ln.split(":")
+    #     r, g, b = max_clr(st)
+    #     s += r * g * b
+    # return s
+    regex = re.compile(r"[\s;]")
+    
 
 
 if __name__ == "__main__":

@@ -1,4 +1,4 @@
-with open("inputs/day_01.txt") as file:
+with open("../inputs/day_01.txt") as file:
     IN = file.read().strip().splitlines()
 
 TEST1 = """\
