@@ -27,12 +27,12 @@ def part1(aoc_input):
 
 
 def part2(aoc_input):
-    factors = dict.fromkeys(range(1, len(aoc_input) + 1), 1)
-    for i, num_matches in enumerate(aoc_input, start=1):
-        for j in range(1, num_matches + 1):
-            factors[i + j] += factors[i]
+    factors = dict.fromkeys(range(len(aoc_input)), 1)
+    for i, num_matches in enumerate(aoc_input):
+        for j in range(num_matches):
+            factors[i + j] += factors[i - 1]
 
-    return sum(map(factors.get, range(1, len(aoc_input) + 1)))
+    return sum(factors.values())
 
 
 def main() -> None:
