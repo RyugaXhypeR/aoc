@@ -1,14 +1,15 @@
-with open("../inputs/day_01.txt") as file:
-    IN = file.read().strip().splitlines()
-
-TEST1 = """\
+TEST1: list[
+    str
+] = """\
 1abc2
 pqr3stu8vwx
 a1b2c3d4e5f
 treb7uchet
 """.splitlines()
 
-TEST2 = """\
+TEST2: list[
+    str
+] = """\
 two1nine
 eightwothree
 abcone2threexyz
@@ -18,17 +19,10 @@ zoneight234
 7pqrstsixteen
 """.splitlines()
 
+is_final: bool = True
 
-UNIQUE_TABLE = {
-    "o": ("one",),
-    "t": ("two", "three"),
-    "f": ("four", "five"),
-    "s": ("six", "seven"),
-    "e": ("eight",),
-    "n": ("nine",),
-}
 
-DIG_TABLE = {
+DIG_TABLE: dict[str, str] = {
     "one": "1",
     "two": "2",
     "three": "3",
@@ -41,29 +35,39 @@ DIG_TABLE = {
 }
 
 
-def part1(inp):
-    return sum(int((x := [c for c in ln if c.isdigit()])[0] + x[-1]) for ln in inp)
+def get_digits(line: str) -> str:
+    return (dig := list(filter(str.isdigit, line)))[0] + dig[-1]
 
 
-def part2(inp):
-    sums = 0
-    for ln in inp:
-        i = 0
-        sbuf = ""
-        while i < len(ln):
-            if ln[i].isdigit():
-                sbuf += ln[i]
-            for d in UNIQUE_TABLE.get(ln[i], []):
-                if ln[i: i + len(d)] == d:
-                    sbuf += DIG_TABLE[d]
-                    i += len(d) - 1
-                    break
-            else:
-                i += 1
-        sums += int(sbuf[0] + sbuf[-1])
-    return sums
+def part1(aoc_input: list[str]) -> int:
+    return sum(int(get_digits(line)) for line in aoc_input)
+
+
+def part2(aoc_input: list[str]) -> int:
+    return sum(
+        int(
+            (
+                dig := "".join(
+                    line[i] if line[i].isdigit() else digit
+                    for i in range(len(line))
+                    for digit_str, digit in DIG_TABLE.items()
+                    if line[i].isdigit() or line[i:].startswith(digit_str)
+                )
+            )[0]
+            + dig[-1]
+        )
+        for line in aoc_input
+    )
+
+
+def main() -> None:
+    with open("../inputs/day_01.txt") as file:
+        aoc_raw_input = file.read().strip().splitlines()
+    aoc_input = aoc_raw_input if is_final else TEST1
+
+    print(part1(aoc_input))
+    print(part2(aoc_input))
 
 
 if __name__ == "__main__":
-    print(part1(IN))
-    print(part2(IN))
+    main()
