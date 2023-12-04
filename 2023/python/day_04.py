@@ -1,6 +1,4 @@
-import re
-
-DIGITS_RE = re.compile(r"(\d++)(?!:)\s*")
+# DIGITS_RE = re.compile(r"(\d++)(?!:)\s*")
 
 TEST_INPUT = """Card 1: 41 48 83 86 17 | 83 86  6 31 17  9 48 53
 Card 2: 13 32 20 16 61 | 61 30 68 82 17 32 24 19
@@ -14,11 +12,9 @@ is_final = True
 
 def clean_input(aoc_input):
     return [
-        len(
-            {*DIGITS_RE.findall((parts := lines.split("|"))[0])}
-            & {*DIGITS_RE.findall(parts[1])}
-        )
-        for lines in aoc_input.splitlines()
+        len(set.__and__(*(set(nums.split())
+            for nums in line.split(":")[1].split("|"))))
+        for line in aoc_input.splitlines()
     ]
 
 
