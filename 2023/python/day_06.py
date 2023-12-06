@@ -1,5 +1,4 @@
-from itertools import takewhile
-from math import prod
+from math import isqrt, prod
 
 TEST_INPUT = """\
 Time:      7  15   30
@@ -25,8 +24,8 @@ def num_winning_runs(time: int, distance: int) -> int:
     #            distance, range(time // 2 + 1, time)))
     #   ) * 2 + (~time & 1)
 
-    _d = (time**2 - 4 * distance) ** 0.5
-    return int((time + _d) // 2 - (time - _d) // 2)
+    _d = isqrt(time**2 - 4 * distance) + 1
+    return (time + _d) // 2 - (time - _d) // 2
 
 
 def part1(aoc_input: list[list[str]]) -> int:
