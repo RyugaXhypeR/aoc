@@ -24,6 +24,12 @@ def num_winning_runs(time: int, distance: int) -> int:
     #            distance, range(time // 2 + 1, time)))
     #   ) * 2 + (~time & 1)
 
+    # Quadratic formula::
+    #
+    #   distance > ith * (time - ith)
+    #   ith**2 - ith*time + distance = 0
+    #
+    #   ith = (time [+-] √time**2 - 4*distance) / 2
     _d = isqrt(time**2 - 4 * distance) + 1
     return (time + _d) // 2 - (time - _d) // 2
 
