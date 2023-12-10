@@ -35,7 +35,7 @@ def main() -> None:
     with open("../inputs/day_04.txt") as file:
         aoc_input = file.read().strip()
 
-    aoc_input = clean_input(aoc_input) if is_final else clean_input(TEST_INPUT)
+    aoc_input = clean_input(aoc_input if is_final else TEST_INPUT)
 
     print(part1(aoc_input))
     print(part2(aoc_input))
