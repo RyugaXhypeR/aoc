@@ -1,3 +1,6 @@
+from itertools import accumulate
+
+
 DIR_TO_POS_MAP = dict(zip("UDLR", (-1j, 1j, -1, 1)))
 
 type AocInputT = list[tuple[complex, int, int, complex]]
@@ -45,22 +48,18 @@ def shoelace(points: list[tuple[tuple[int, int], tuple[int, int]]]) -> int:
 
 
 def part1(aoc_input: AocInputT) -> int:
-    coords = 0j
-    points = [
-        coords := coords + step * direction_factor
-        for direction_factor, step, *_ in aoc_input
-    ]
+    points = list(
+        accumulate(step * direction_factor for direction_factor, step, *_ in aoc_input)
+    )
 
     num_walls = sum(step for _, step, *_ in aoc_input)
     return int(shoelace(points) + num_walls // 2 + 1)
 
 
 def part2(aoc_input: AocInputT) -> int:
-    coords = 0j
-    points = [
-        coords := coords + step * direction_factor
-        for *_, step, direction_factor in aoc_input
-    ]
+    points = list(
+        accumulate(step * direction_factor for *_, step, direction_factor in aoc_input)
+    )
 
     num_walls = sum(step for *_, step, _ in aoc_input)
     return int(shoelace(points) + num_walls // 2 + 1)
