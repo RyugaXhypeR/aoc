@@ -1,6 +1,6 @@
 DIR_TO_POS_MAP = dict(zip("UDLR", (-1j, 1j, -1, 1)))
 
-type AocInputT = list[str]
+type AocInputT = list[tuple[complex, int, int, complex]]
 
 TEST_INPUT = """\
 R 6 (#70c710)
