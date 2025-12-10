@@ -28,8 +28,7 @@ def _clean(n: str):
 
 def part1(aoc_input: AocInputT) -> int:
     return sum(
-        not x
-        for x in accumulate(aoc_input, lambda x, n: (x + n) % 100, initial=50)
+        not x for x in accumulate(aoc_input, lambda x, n: (x + n) % 100, initial=50)
     )
 
 

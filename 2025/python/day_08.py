@@ -1,7 +1,6 @@
-from itertools import combinations
 import heapq
 import math
-
+from itertools import combinations
 
 type AocInputT = list[tuple[int, int, int]]
 
@@ -48,7 +47,7 @@ def part1(aoc_input: AocInputT) -> int:
 
     for _ in range(n):
         d, x, y = heapq.heappop(short_distances)
-        
+
         xi = next((i for i, c in enumerate(circuits) if x in c), None)
         yi = next((i for i, c in enumerate(circuits) if y in c), None)
 
@@ -62,7 +61,6 @@ def part1(aoc_input: AocInputT) -> int:
             circuits[xi] |= circuits[yi]
             if xi != yi:
                 circuits.pop(yi)
-
 
     top_three = heapq.nlargest(3, map(len, circuits))
     return math.prod(top_three)
@@ -79,14 +77,14 @@ def part2(aoc_input: AocInputT) -> int:
 
     while short_distances:
         d, x, y = heapq.heappop(short_distances)
-        
+
         xi = next((i for i, c in enumerate(circuits) if x in c), None)
         yi = next((i for i, c in enumerate(circuits) if y in c), None)
 
         if xi is None and yi is None:
             circuits.append({x, y})
         elif xi is None:
-            last = (x, y) # bruhhh
+            last = (x, y)  # bruhhh
             circuits[yi].add(x)
         elif yi is None:
             circuits[xi].add(y)

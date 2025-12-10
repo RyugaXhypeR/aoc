@@ -1,7 +1,9 @@
 from collections.abc import Generator
-from functools import reduce
 
-type AocInputT = list[list[str]]
+import numpy as np
+from scipy.ndimage import convolve
+
+type AocInputT = list[list[int]]
 
 TEST_INPUT = """\
 ..@@.@@@@.
@@ -16,7 +18,13 @@ TEST_INPUT = """\
 @.@.@@@.@.
 """
 
-is_final = True
+is_final = False
+
+K8 = [
+    [1, 1, 1],
+    [1, 0, 1],
+    [1, 1, 1],
+]
 
 
 def get_eight_neighbors(grid: list[list[str]], i: int, j: int) -> Generator[str]:
@@ -35,18 +43,11 @@ def get_eight_neighbors(grid: list[list[str]], i: int, j: int) -> Generator[str]
 
 
 def parse_input(aoc_raw_input: str) -> AocInputT:
-    return [list(line) for line in aoc_raw_input.splitlines()]
+    return [[int(x == "@") for x in line] for line in aoc_raw_input.splitlines()]
 
 
 def part1(aoc_input: AocInputT) -> int:
-    m, n = len(aoc_input), len(aoc_input[0])
-    return sum(
-        1
-        for i in range(m)
-        for j in range(n)
-        if aoc_input[i][j] == "@"
-        and list(get_eight_neighbors(aoc_input, i, j)).count("@") < 4
-    )
+    neighbors = convolve(aoc_input, K8)
 
 
 def part2(aoc_input: AocInputT) -> int:

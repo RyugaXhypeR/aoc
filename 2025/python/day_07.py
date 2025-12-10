@@ -55,19 +55,17 @@ def part2(aoc_input: AocInputT) -> int:
 
     paths = [[0] * N for _ in range(M)]
     paths[sx][sy] = 1
-    
+
     for x in range(M - 1):
         for y in range(N):
-            if aoc_input[x + 1][y] == '^':
+            if aoc_input[x + 1][y] == "^":
                 if y - 1 >= 0:
-                    paths[x+1][y-1] += paths[x][y]
+                    paths[x + 1][y - 1] += paths[x][y]
                 if y + 1 < N:
-                    paths[x+1][y+1] += paths[x][y]
+                    paths[x + 1][y + 1] += paths[x][y]
             else:
-                paths[x+1][y] += paths[x][y]
+                paths[x + 1][y] += paths[x][y]
     return sum(paths[-1])
-
-
 
 
 def main() -> None:

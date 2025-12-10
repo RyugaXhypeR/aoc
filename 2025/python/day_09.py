@@ -2,7 +2,6 @@ from itertools import combinations
 
 from shapely import Polygon
 
-
 type AocInputT = list[tuple[int, int]]
 
 TEST_INPUT = """\

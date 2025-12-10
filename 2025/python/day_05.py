@@ -35,7 +35,7 @@ def parse_input(aoc_raw_input: str) -> AocInputT:
 
     mr = merge_ranges(ranges)
 
-    return [(start, stop)  for start, stop in mr], [*map(int, ids.split())]
+    return [(start, stop) for start, stop in mr], [*map(int, ids.split())]
 
 
 def bsearch(ranges: list[tuple[int, int]], id_: int) -> bool:
@@ -44,7 +44,7 @@ def bsearch(ranges: list[tuple[int, int]], id_: int) -> bool:
 
     while lo < hi:
         mid = lo + hi >> 1
-        
+
         rlo, rhi = ranges[mid]
         if rlo <= id_ <= rhi:
             return True

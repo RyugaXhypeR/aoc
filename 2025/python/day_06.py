@@ -19,7 +19,10 @@ def parse_input(aoc_raw_input: str) -> AocInputT:
 
 def part1(aoc_input: AocInputT) -> int:
     rows = zip(
-        *((int(num) if num.isnumeric() else num for num in line.split()) for line in aoc_input)
+        *(
+            (int(num) if num.isnumeric() else num for num in line.split())
+            for line in aoc_input
+        )
     )
 
     return sum(
@@ -33,14 +36,15 @@ def part2(aoc_input: AocInputT) -> int:
 
     operands = [[]]
     for c in cols:
-        if (s := ''.join(c).strip()):
+        if s := "".join(c).strip():
             n = int(s)
             operands[-1].append(n)
         else:
             operands.append([])
 
     return sum(
-        reduce({"+": add, "*": mul}[operator], operands) for operands, operator in zip(operands, operators)
+        reduce({"+": add, "*": mul}[operator], operands)
+        for operands, operator in zip(operands, operators)
     )
 
 
