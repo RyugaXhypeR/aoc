@@ -4,6 +4,7 @@ from itertools import combinations, count
 from operator import xor
 
 import z3
+from scipy.optimize import linprog
 
 type AocInputT = list[tuple[set[int], list[set[int]], list[int]]]
 
@@ -44,7 +45,7 @@ def part1(aoc_input: AocInputT) -> int:
     )
 
 
-def find_min_steps(buttons: list[set[int]], joltages: list[int]) -> int:
+def find_min_presses_z3(buttons: list[set[int]], joltages: list[int]) -> int:
     optimizer = z3.Optimize()
 
     # To minimize: number of total presses, so we keep track of presses on each button
@@ -62,13 +63,21 @@ def find_min_steps(buttons: list[set[int]], joltages: list[int]) -> int:
     assert optimizer.check() == z3.sat
 
     model = optimizer.model()
-    presses = [model[press_var].as_long() for press_var in button_presses]
 
-    return sum(presses)
+    return model.eval(sum(button_presses)).as_long()
+
+def find_min_presses_linprog(buttons: list[set[int]], joltages: list[int]) -> int:
+    # A = 2d array representing buttons that will affect the joltage at current index
+    # A @ x = joltages
+    # minimize x
+    A = [[index in button for button in buttons]
+         for index in range(len(joltages))]
+    optim_result = linprog([1] * len(buttons), A_eq=A, b_eq=joltages, integrality=1)
+    return round(optim_result.fun)  # `int(...)` floors the result causing trouble
 
 
 def part2(aoc_input: AocInputT) -> int:
-    return sum(find_min_steps(buttons, joltages) for _, buttons, joltages in aoc_input)
+    return sum(find_min_presses_linprog(buttons, joltages) for _, buttons, joltages in aoc_input)
 
 
 def main() -> None:
