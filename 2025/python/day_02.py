@@ -8,7 +8,7 @@ TEST_INPUT = """\
 824824821-824824827,2121212118-2121212124
 """
 
-is_final = False
+is_final = True
 
 
 def gen_mirrors(lo: int, hi: int) -> Generator[int, None, None]:
@@ -35,9 +35,9 @@ def gen_reps(lo: int, hi: int) -> Generator[int, None, None]:
     llo = len(slo)
     lhi = len(shi)
 
-    # if llo < lhi:
-    #     yield from gen_reps(lo, 10**llo-1)
-    #     yield from gen_reps(10**llo, hi)
+    if llo < lhi:
+        yield from gen_reps(lo, 10**llo-1)
+        yield from gen_reps(10**llo, hi)
 
     for i in range(1, llo // 2 + 1):
         for n in range(int(slo[:i]), hi):
