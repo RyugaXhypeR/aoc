@@ -19,9 +19,6 @@ fn parse_input(aoc_raw_input: &str) -> Vec<(u64, u64)> {
 /// my input); round down `hi` to nearest even integer less than `hi` (could also round up `lo` to
 /// nearest even integer, but rounding down is less chars).
 ///
-/// Since now we only have single digit range to generate doublet numbers in, we have to find the
-/// bounds for the doublets. For this, we either  have to upscale `lo` or downscale `hi`.
-///
 /// After finding the bounds, its simply summing half of the doublets and then multiplying `r2`
 /// (basically duplicates the half).
 ///
@@ -36,14 +33,14 @@ fn parse_input(aoc_raw_input: &str) -> Vec<(u64, u64)> {
 ///     for digits in range(nd_lo, nd_hi + 1):
 ///         r2 = 10**digits + 1
 ///
-///         result += r2 * sum(range(
-///             min(math.ceil(lo / r2), r2 / 10),
-///             max(hi // r2, r2 - 2)))
+///         result += r2 * sum(
+///             range(max(math.ceil(lo / r2), r2 // 10), min(hi // r2, r2 - 2) + 1)
+///         )
 ///
 ///     return result
 /// ```
 fn sum_doublets(lo: u64, hi: u64) -> u64 {
-    let r2 = 10u64.pow((hi.ilog10() + 1 & !1) >> 1) + 1;
+    let r2 = 10u64.pow((hi.ilog10() + 1) >> 1) + 1;
     (lo.div_ceil(r2).max(r2 / 10)..=(hi / r2).min(r2 - 2)).sum::<u64>() * r2
 }
 
